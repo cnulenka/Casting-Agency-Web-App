@@ -39,8 +39,28 @@ def get_actors():
 			"actors": formatted_actors
 		}), 200
 	except Exception as error:
-        print(error)
+		print(error)
 
+
+@app.route("/actors", methods=["POST"])
+def create_actors():
+	body = request.get_json()
+	input_name = body.get("name", None)
+	input_age = body.get("age", None)
+	input_gender = body.get("gender", None)
+	if not input_name or not input_age or not input_gender:
+		print("Incomplete actor infomation provided.")
+		abort(422)
+	try:
+		actor = Actor(name=input_name, age=input_age, gender=input_gender)
+		actor.insert()
+		return jsonify({"success": True, "actor": actor.format()}), 200
+	except Exception as error:
+		db.session.rollback()
+		print(error)
+		abort(500)
+	finally:
+		db.session.close()
 
 
 if __name__ == "__main__":
