@@ -54,6 +54,8 @@ class Actor(db.Model):
     name = db.Column(db.String, nullable=False)
     age = db.Column(db.Integer, nullable=False)
     gender = db.Column(db.String, nullable=False)
+    movies = db.relationship('Movie', secondary=castings,
+      backref=db.backref('actors', lazy=True))
 
     def __init__(self, name, age, gender):
         self.name = name
@@ -78,3 +80,11 @@ class Actor(db.Model):
             "age": self.age,
             "gender":self.gender
         }
+
+#many:many relationship between actors and movies
+castings = db.Table('castings',
+    db.Column('actor_id', db.Integer, db.ForeignKey('actors.id'),
+    			primary_key=True),
+    db.Column('movie_id', db.Integer, db.ForeignKey('movies.id'),
+    			primary_key=True)
+)
