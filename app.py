@@ -11,6 +11,7 @@ from flask import (
 )
 from flask_cors import CORS
 from models import *
+import datetime
 
 app = Flask(__name__)
 setup_db(app)
@@ -44,27 +45,23 @@ def get_actors():
 
 @app.route("/actors", methods=["POST"])
 def create_actors():
+	body = request.get_json()
+	input_name = body.get("name", None)
+	input_age = body.get("age", None)
+	input_gender = body.get("gender", None)
+	if not input_name or not input_age or not input_gender:
+		print("Incomplete actor infomation provided.")
+		abort(422)
 	try:
-		body = request.get_json()
-		input_name = body.get("name", None)
-		input_age = body.get("age", None)
-		input_gender = body.get("gender", None)
-		if not input_name or not input_age or not input_gender:
-			print("Incomplete actor infomation provided.")
-			abort(422)
-		try:
-			actor = Actor(name=input_name, age=input_age, gender=input_gender)
-			actor.insert()
-			return jsonify({"success": True, "actor": actor.format()}), 200
-		except Exception as error:
-			db.session.rollback()
-			print(error)
-			abort(500)
-		finally:
-			db.session.close()
+		actor = Actor(name=input_name, age=input_age, gender=input_gender)
+		actor.insert()
+		return jsonify({"success": True, "actor": actor.format()}), 200
 	except Exception as error:
+		db.session.rollback()
 		print(error)
 		abort(500)
+	finally:
+		db.session.close()
 
 
 
@@ -108,6 +105,20 @@ def delete_actors(actor_id):
 		abort(500)
 	finally:
 		db.session.close()
+
+@app.route("/movies", methods=["GET"])
+def get_movies():
+	try:
+		movies = Movie.query.order_by(Movie.id).all()
+		formatted_movies = [movie.format() for movie in movies]
+
+		return jsonify({
+			"success": True,
+			"movies": formatted_movies
+		}), 200
+	except Exception as error:
+		print(error)
+
 
 if __name__ == "__main__":
     app.run()
