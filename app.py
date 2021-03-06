@@ -8,8 +8,10 @@ from flask import (
     url_for,
     abort,
 )
+from models import *
 
 app = Flask(__name__)
+setup_db(app)
 
 if __name__ == "__main__":
     app.run()
