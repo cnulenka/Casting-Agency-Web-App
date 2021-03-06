@@ -70,31 +70,44 @@ def create_actors():
 
 @app.route("/actors/<int:actor_id>", methods=["PATCH"])
 def update_actors(actor_id):
+	body = request.get_json()
+	input_name = body.get("name", None)
+	input_age = body.get("age", None)
+	input_gender = body.get("gender", None)
+	actor = Actor.query.filter(Actor.id == actor_id).one_or_none()
+	if actor is None:
+		abort(404)
+	if input_name:
+		actor.name = input_name
+	if input_age:
+		actor.age = input_age
+	if input_gender:
+		actor.gender = input_gender
 	try:
-		body = request.get_json()
-		input_name = body.get("name", None)
-		input_age = body.get("age", None)
-		input_gender = body.get("gender", None)
-		actor = Actor.query.filter(Actor.id == actor_id).one_or_none()
-		if actor is None:
-			abort(404)
-		if input_name:
-			actor.name = input_name
-		if input_age:
-			actor.age = input_age
-		if input_gender:
-			actor.gender = input_gender
-		try:
-			actor.update()
-			return jsonify({"success": True, "actor": actor.format()}), 200
-		except Exception as error:
-			print(error)
-			db.session.rollback()
-		finally:
-			db.session.close()
+		actor.update()
+		return jsonify({"success": True, "actor": actor.format()}), 200
 	except Exception as error:
 		print(error)
+		db.session.rollback()
 		abort(500)
+	finally:
+		db.session.close()
+
+
+@app.route("/actors/<int:actor_id>", methods=["DELETE"])
+def delete_actors(actor_id):
+	actor = Actor.query.filter(Actor.id == actor_id).one_or_none()
+	if actor is None:
+		abort(404)
+	try:
+		actor.delete()
+		return jsonify({"success": True, "actor": actor_id}), 200
+	except Exception as error:
+		db.session.rollback()
+		print(error)
+		abort(500)
+	finally:
+		db.session.close()
 
 if __name__ == "__main__":
     app.run()
