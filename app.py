@@ -208,5 +208,37 @@ def get_movies_by_actors(actor_id):
 	return jsonify({"success": True, "movies": formatted_movies})
 
 
+# Error Handling
+"""
+    Error handlers to pass message with the error codes
+"""
+
+
+@app.errorhandler(422)
+def unprocessable(error):
+    return jsonify({
+                    "success": False,
+                    "error": 422,
+                    "message": "unprocessable"
+                    }), 422
+
+
+@app.errorhandler(404)
+def not_found(error):
+    return jsonify({"success": False,
+                    "error": 404,
+                    "message": "resource not found"
+                    }), 404
+
+
+@app.errorhandler(500)
+def server_error(error):
+    return jsonify({"success": False,
+                    "error": 500,
+                    "message": "server error"
+                    }), 500
+
+
+
 if __name__ == "__main__":
     app.run()
