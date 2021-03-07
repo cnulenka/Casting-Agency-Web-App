@@ -1,4 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
+from datetime import datetime
 
 
 database_name = "castingagencydb"
@@ -18,6 +19,45 @@ def setup_db(app, database_path=database_path):
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     db.app = app
     db.init_app(app)
+
+def setup_db_for_test():
+	db.drop_all()
+	db.create_all()
+
+	#add test data
+	actor_1 = Actor('Robert Downey Jr.',55,'Male')
+	actor_2 = Actor('Scarlett Johansson',36,'Female')
+	actor_3 = Actor('Chris Evans',39,'Male')
+
+	actor_1.insert()
+	actor_2.insert()
+	actor_3.insert()
+
+	movie_1 = Movie("Iron Man", datetime(2008,5,2))
+	movie_2 = Movie("Captain America: The First Avenger", datetime(2011,7,22))
+	movie_3 = Movie("The Avengers", datetime(2012,5,4))
+
+	movie_1.insert()
+	movie_2.insert()
+	movie_3.insert()
+
+	casting_1 = castings.insert().values(
+		actor_id=actor_1.id, movie_id=movie_1.id)
+	casting_2 = castings.insert().values(
+		actor_id=actor_2.id, movie_id=movie_2.id)
+	casting_3 = castings.insert().values(
+		actor_id=actor_1.id, movie_id=movie_3.id)
+	casting_4 = castings.insert().values(
+		actor_id=actor_2.id, movie_id=movie_3.id)
+	casting_5 = castings.insert().values(
+		actor_id=actor_3.id, movie_id=movie_3.id)
+
+	db.session.execute(casting_1)
+	db.session.execute(casting_2)
+	db.session.execute(casting_3)
+	db.session.execute(casting_4)
+	db.session.execute(casting_5)
+	db.session.commit()
 
 class Movie(db.Model):
 	__tablename__ = "movies"
