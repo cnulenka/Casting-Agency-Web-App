@@ -12,6 +12,7 @@ from flask import (
 from flask_cors import CORS
 from models import *
 import datetime
+from .auth import AuthError, requires_auth
 
 app = Flask(__name__)
 setup_db(app)
@@ -238,6 +239,27 @@ def server_error(error):
                     "message": "server error"
                     }), 500
 
+
+@app.errorhandler(401)
+def unauthorized(error):
+    return jsonify({"success": False,
+                    "error": 401,
+                    "message": "unauthorized"
+                    }), 401
+
+
+@app.errorhandler(AuthError)
+def authorization_error(error):
+    return (
+        jsonify(
+            {
+                "success": False,
+                "error": error.status_code,
+                "message": error.error["description"],
+            }
+        ),
+        error.status_code,
+    )
 
 
 if __name__ == "__main__":
