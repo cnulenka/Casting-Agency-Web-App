@@ -174,5 +174,20 @@ def update_movies(movie_id):
 	finally:
 		db.session.close()
 
+@app.route("/movies/<int:movie_id>", methods=["DELETE"])
+def delete_movies(movie_id):
+	movie = Movie.query.filter(Movie.id == movie_id).one_or_none()
+	if movie is None:
+		abort(404)
+	try:
+		movie.delete()
+		return jsonify({"success": True, "movie": movie_id}), 200
+	except Exception as error:
+		db.session.rollback()
+		print(error)
+		abort(500)
+	finally:
+		db.session.close()
+
 if __name__ == "__main__":
     app.run()
