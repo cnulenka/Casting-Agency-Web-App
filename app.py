@@ -189,6 +189,7 @@ def delete_movies(movie_id):
 	finally:
 		db.session.close()
 
+
 @app.route("/movies/<int:movie_id>/actors", methods=["GET"])
 def get_actors_by_movies(movie_id):
 	movie = Movie.query.filter(Movie.id == movie_id).one_or_none()
@@ -196,6 +197,16 @@ def get_actors_by_movies(movie_id):
 		abort(404)
 	formatted_actors = [actor.format() for actor in movie.actors]
 	return jsonify({"success": True, "actors": formatted_actors,})
+
+
+@app.route("/actors/<int:actor_id>/movies", methods=["GET"])
+def get_movies_by_actors(actor_id):
+	actor = Actor.query.filter(Actor.id == actor_id).one_or_none()
+	if actor is None:
+		abort(404)
+	formatted_movies = [movie.format() for movie in actor.movies]
+	return jsonify({"success": True, "movies": formatted_movies})
+
 
 if __name__ == "__main__":
     app.run()
