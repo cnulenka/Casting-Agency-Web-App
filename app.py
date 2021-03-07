@@ -120,5 +120,37 @@ def get_movies():
 		print(error)
 
 
+@app.route("/movies", methods=["POST"])
+def create_movies():
+	body = request.get_json()
+	input_title = body.get("title", None)
+	input_release_date = body.get("release_date", None)
+	input_actors_ids = body.get("actors_ids",None)
+	if not input_title or not input_release_date:
+		print("Incomplete movie infomation provided.")
+		abort(422)
+	if not input_actors_ids or len(input_actors_ids) == 0:
+		print("Actors must be provided to add a movie")
+		abort(422)
+	try:
+		day,month,year = map(int, input_release_date.split("/"))
+		input_release_date = datetime.datetime(year, month, day)
+		movie = Movie(title=input_title, release_date=input_release_date)
+		for actor_id in input_actors_ids:
+			actor = Actor.query.filter(Actor.id == actor_id).one_or_none()
+			if actor is None:
+				print("Actor does not exists")
+				abort(404)
+			movie.actors.append(actor)
+			actor.movies.append(movie)
+		movie.insert()
+		return jsonify({"success": True, "movie": movie.format()}), 200
+	except Exception as error:
+		db.session.rollback()
+		print(error)
+		abort(500)
+	finally:
+		db.session.close()
+
 if __name__ == "__main__":
     app.run()
