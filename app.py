@@ -152,5 +152,27 @@ def create_movies():
 	finally:
 		db.session.close()
 
+@app.route("/movies/<int:movie_id>", methods=["PATCH"])
+def update_movies(movie_id):
+	body = request.get_json()
+	input_title = body.get("title", None)
+	input_release_date = body.get("release_date", None)
+	movie = Movie.query.filter(Movie.id == movie_id).one_or_none()
+	if movie is None:
+		abort(404)
+	if input_title:
+		movie.title = input_title
+	if input_release_date:
+		movie.release_date = input_release_date
+	try:
+		movie.update()
+		return jsonify({"success": True, "movie": movie.format()}), 200
+	except Exception as error:
+		print(error)
+		db.session.rollback()
+		abort(500)
+	finally:
+		db.session.close()
+
 if __name__ == "__main__":
     app.run()
