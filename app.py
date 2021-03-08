@@ -115,7 +115,7 @@ def delete_actors(jwtoken, actor_id):
 			abort(404)
 		try:
 			actor.delete()
-			return jsonify({"success": True, "actor": actor_id}), 200
+			return jsonify({"success": True, "actor_id": actor_id}), 200
 		except Exception as error:
 			db.session.rollback()
 			print(error)
@@ -157,17 +157,17 @@ def create_movies(jwtoken):
 		if not input_actors_ids or len(input_actors_ids) == 0:
 			print("Actors must be provided to add a movie")
 			abort(422)
+		day,month,year = map(int, input_release_date.split("/"))
+		input_release_date = datetime.datetime(year, month, day)
+		movie = Movie(title=input_title, release_date=input_release_date)
+		for actor_id in input_actors_ids:
+			actor = Actor.query.filter(Actor.id == actor_id).one_or_none()
+			if actor is None:
+				print("Actor does not exists")
+				abort(404)
+			movie.actors.append(actor)
+			actor.movies.append(movie)
 		try:
-			day,month,year = map(int, input_release_date.split("/"))
-			input_release_date = datetime.datetime(year, month, day)
-			movie = Movie(title=input_title, release_date=input_release_date)
-			for actor_id in input_actors_ids:
-				actor = Actor.query.filter(Actor.id == actor_id).one_or_none()
-				if actor is None:
-					print("Actor does not exists")
-					abort(404)
-				movie.actors.append(actor)
-				actor.movies.append(movie)
 			movie.insert()
 			return jsonify({"success": True, "movie": movie.format()}), 200
 		except Exception as error:
@@ -214,7 +214,7 @@ def delete_movies(jwtoken, movie_id):
 			abort(404)
 		try:
 			movie.delete()
-			return jsonify({"success": True, "movie": movie_id}), 200
+			return jsonify({"success": True, "movie_id": movie_id}), 200
 		except Exception as error:
 			db.session.rollback()
 			print(error)
@@ -233,7 +233,7 @@ def get_actors_by_movies(jwtoken, movie_id):
 		if movie is None:
 			abort(404)
 		formatted_actors = [actor.format() for actor in movie.actors]
-		return jsonify({"success": True, "actors": formatted_actors,})
+		return jsonify({"success": True, "actors": formatted_actors})
 	except AuthError as auth_error:
 		print(auth_error)
 
