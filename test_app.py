@@ -9,6 +9,13 @@ from dotenv import load_dotenv, find_dotenv
 
 load_dotenv(find_dotenv())
 
+#auth tokens should be updated before running tests, read the README to know more details
+CASTING_ASSISTANT_TOKEN='eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6ImxCRzVkMGJsbndGOGFMNktpWUFtTyJ9.eyJpc3MiOiJodHRwczovL2Rldi1rcms3aDY1aS51cy5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NjA0NGM2ZTdiODQ1ODYwMDY5M2E0MGM0IiwiYXVkIjoiY2FzdGluZyIsImlhdCI6MTYxNTIxOTkwNCwiZXhwIjoxNjE1MzA2MzA0LCJhenAiOiJpdldHZ3NjczVJM055QkZRY01YdENneURBenBCckt3MCIsInNjb3BlIjoiIiwicGVybWlzc2lvbnMiOlsiZ2V0OmFjdG9ycyIsImdldDptb3ZpZXMiXX0.GQSsmX4mdm5ptGxtkHSRvTO1OM6WiWCzCm_Jccx37zlz4pVOth7ciGnDsYbUn58imbrwyiC0KVmXOzCqbvVR9YmCawYgyb7v6a-AMc9u62hehY-minBw1SCpMfRy_MUHVRr7uBk1gI1AOqdlO0hOUU4Ir3oomKo2C6OHxnccNsjUZcktaqrf0RjFq_kLo4N8WfDMAKXSD1vSzceg9PmLmq1HxsKg2wyxm0cVMqnyfP-uEU5TBlylWkpsrrukvtCcCfwKEQXRj7fjwxCGvoVgnbOC7bStWNyFcrB6epcK7_H6av_DAuDPCwjBqoTz6embE7GYB6A6Nsgov8eXuOtFjw'
+
+CASTING_DIRECTOR_TOKEN='eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6ImxCRzVkMGJsbndGOGFMNktpWUFtTyJ9.eyJpc3MiOiJodHRwczovL2Rldi1rcms3aDY1aS51cy5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NjA0NGM3MjAzNTE5ZDkwMDY4Zjg0ZjRlIiwiYXVkIjoiY2FzdGluZyIsImlhdCI6MTYxNTIyMDA1OCwiZXhwIjoxNjE1MzA2NDU4LCJhenAiOiJpdldHZ3NjczVJM055QkZRY01YdENneURBenBCckt3MCIsInNjb3BlIjoiIiwicGVybWlzc2lvbnMiOlsiZGVsZXRlOmFjdG9ycyIsImdldDphY3RvcnMiLCJnZXQ6bW92aWVzIiwicGF0Y2g6YWN0b3JzIiwicGF0Y2g6bW92aWVzIiwicG9zdDphY3RvcnMiXX0.mi2Hem27YHATMctxABG4Hdt-_YLyvy3vKTPCIKV2zqsCVLFpET3ZDAtMfiu5kIuLPvkbJb_WPoWEX1ZTjb7pNx00ty2P0YClOeg3E6--1OcGKRWL1hw0J0CoXqmWfPcXmwep3te33YEc3B12x-8xSv6uCP-K5vRjDgf88Y_DESfhAg3DdQAD35xuxaY7QAl35Fbv689k3EzdJZ9knI7bMcUOeF1wrFzUweMLX-qJ6tBMM63CfJzzsfgdJ_CP0a4_6sQwGUIV5BSji60YNg9BysUrVGf9q2TSdmaYPQocUdfwATPOCGLTrhqh2RDFkR7KUrpYEh96txuQWWJE2jFAOQ'
+
+EXECUTIVE_PRODUCER_TOKEN='eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6ImxCRzVkMGJsbndGOGFMNktpWUFtTyJ9.eyJpc3MiOiJodHRwczovL2Rldi1rcms3aDY1aS51cy5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NjA0NGM3NDczNTE5ZDkwMDY4Zjg0ZjUzIiwiYXVkIjoiY2FzdGluZyIsImlhdCI6MTYxNTIyMDEyMSwiZXhwIjoxNjE1MzA2NTIxLCJhenAiOiJpdldHZ3NjczVJM055QkZRY01YdENneURBenBCckt3MCIsInNjb3BlIjoiIiwicGVybWlzc2lvbnMiOlsiZGVsZXRlOmFjdG9ycyIsImRlbGV0ZTptb3ZpZXMiLCJnZXQ6YWN0b3JzIiwiZ2V0Om1vdmllcyIsInBhdGNoOmFjdG9ycyIsInBhdGNoOm1vdmllcyIsInBvc3Q6YWN0b3JzIiwicG9zdDptb3ZpZXMiXX0.JzGeOY_nK8mlZEaUGO76OsuoiKVZv1eeE4Cz243HLFoqOMURBqnidweEbKvQKwe_159x-NL0YYYCqzInEB3uK72AnyEVrr_IoWPlCcX2mwuFMc-ye2RBfnAzdm9vAZrgUgSS2LMSk1ezr4ThGudtt-gup5SXtLm8XIr0Ptwu90rKwu21-R8IxwgjF38mwQiy6_8hOHvHffa3KDw6AfH2bYpHSFX6UTjyImnyqqANv8mqJU4kLtm9VQTO5w0wWhZHDoZeSguia8oxpk31fMydraCZ8msNyNqdksPeThjiv5Qg0fmjTq-xlt2A6Su8qJpRzi0HhJgepTWwFk8XCOQrbg'
+
 class CastingAgencyTestCase(unittest.TestCase):
     """This class has the test cases for casting agency web app endpoints"""
 
@@ -26,19 +33,13 @@ class CastingAgencyTestCase(unittest.TestCase):
         setup_db_for_test()
 
         self.casting_assistant_auth_header = {
-            "Authorization": "Bearer " + \
-            os.environ.get('CASTING_ASSISTANT_TOKEN', 'abc123abc1234')
-        }
+            "Authorization": "Bearer " + CASTING_ASSISTANT_TOKEN}
 
         self.casting_director_auth_header = {
-            "Authorization": "Bearer " + \
-            os.environ.get('CASTING_DIRECTOR_TOKEN', 'abc123abc1234')
-        }
+            "Authorization": "Bearer " + CASTING_DIRECTOR_TOKEN}
 
         self.executive_producer_auth_header = {
-            "Authorization": "Bearer " + \
-            os.environ.get('EXECUTIVE_PRODUCER_TOKEN', 'abc123abc1234')
-        }
+            "Authorization": "Bearer " + EXECUTIVE_PRODUCER_TOKEN}
 
         self.create_actor_success = {
             "name": "Chris Hemsworth",

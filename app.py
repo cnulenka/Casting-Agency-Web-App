@@ -1,18 +1,17 @@
-from flask import (
-    Flask,
-    render_template,
-    request,
-    Response,
-    flash,
-    redirect,
-    url_for,
-    abort,
-    jsonify,
-)
+from flask import Flask, request, abort, jsonify
 from flask_cors import CORS
 from models import *
 import datetime
+import os
 from auth import AuthError, requires_auth
+from dotenv import load_dotenv, find_dotenv
+
+load_dotenv(find_dotenv())
+
+AUTH0_DOMAIN = os.environ['AUTH0_DOMAIN']
+AUTH0_CLIENT_ID = os.environ['AUTH0_CLIENT_ID']
+API_AUDIENCE = os.environ['API_AUDIENCE']
+AUTH0_CALLBACK_URL = os.environ['AUTH0_CALLBACK_URL']
 
 app = Flask(__name__)
 setup_db(app)
@@ -32,6 +31,13 @@ def after_request(response):
 @app.route("/", methods=["GET"])
 def index():
 	return jsonify("Welcome to Casting Agency.")
+
+@app.route("/login", methods=["GET"])
+def login():
+	return redirect('https://{}/authorize?audience={}&response_type=token&\
+client_id={}&redirect_uri={}'.format(AUTH0_DOMAIN,
+	API_AUDIENCE, AUTH0_CLIENT_ID,
+	AUTH0_CALLBACK_URL))
 
 @app.route("/actors", methods=["GET"])
 @requires_auth(permission="get:actors")
