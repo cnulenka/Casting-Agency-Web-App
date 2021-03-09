@@ -1,6 +1,6 @@
 # Casting-Agency-Web-App
 
-This web app models a casting agency compnay and facilitates managing actors and movies. Web app uses
+This web app models a casting agency compnay that facilitates managing actors and movies. Web app uses
 authentication and has roles with specific permissions.
 
 Web App Supports
@@ -58,9 +58,9 @@ go to http://127.0.0.1:5000/login, it will redirect you to Auth0 login page, use
 - Casting Director
     - email: castingdirector@gmail.com
     - password: casting@123
--Executive Producer
-    -email: executiveproducer@gmail.com
-    -password: casting@123
+- Executive Producer
+    - email: executiveproducer@gmail.com
+    - password: casting@123
 
 ## Testing
 To run the tests, make sure you have created a test db and updated setup.sh with test db name.
