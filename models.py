@@ -1,8 +1,10 @@
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
+from dotenv import load_dotenv, find_dotenv
 
+load_dotenv(find_dotenv())
 
-database_name = "castingagencydb"
+database_name = os.environ.get('DATABASE_NAME', 'abc123abc1234')
 database_path = "postgres://postgres:postgres@{}/{}".format(
     "localhost:5432", database_name
 )
