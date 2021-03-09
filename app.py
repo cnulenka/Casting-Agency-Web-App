@@ -28,16 +28,24 @@ def after_request(response):
     )
     return response
 
+# landing page
 @app.route("/", methods=["GET"])
 def index():
 	return jsonify("Welcome to Casting Agency.")
 
+# login redirects to Auth0 login 
 @app.route("/login", methods=["GET"])
 def login():
 	return redirect('https://{}/authorize?audience={}&response_type=token&\
 client_id={}&redirect_uri={}'.format(AUTH0_DOMAIN,
 	API_AUDIENCE, AUTH0_CLIENT_ID,
 	AUTH0_CALLBACK_URL))
+
+
+"""
+	The GET /actors endpoint requires the 'get:actors' permission.
+	It returns a list of actors with a 200 status code
+"""
 
 @app.route("/actors", methods=["GET"])
 @requires_auth(permission="get:actors")
@@ -55,6 +63,13 @@ def get_actors(jwtoken):
 	except Exception as error:
 		print(error)
 
+
+"""
+    The POST /actors endpoint requires the 'post:actors' permission.
+    It creates a new actor. Returns the created actor with 200 status
+    on success. Returns 422 status code if input data is missing.
+    Returns 500 if failure happens during DB update
+"""
 
 @app.route("/actors", methods=["POST"])
 @requires_auth(permission="post:actors")
@@ -81,6 +96,14 @@ def create_actors(jwtoken):
 		print(auth_error)
 
 
+"""
+	The PATCH /actors/<int:actor_id> endpoint requires the 'patch:actors'
+	permission. actor ID is the expected input param.
+	If the actor with input ID can not be found it responds with a 404 error.
+	If the ID is found, the corresponding row for the ID is updated.
+	On a successful update, the endpoint returns a 200 code and updated
+	info of actor, or error 500 in case of DB update failure.
+"""
 
 @app.route("/actors/<int:actor_id>", methods=["PATCH"])
 @requires_auth(permission="patch:actors")
@@ -112,6 +135,17 @@ def update_actors(jwtoken, actor_id):
 		print(auth_error)
 
 
+"""
+	The DELETE /actors/<int:actor_id> endpoint requires the 'delete:actors'
+	permission. actor ID is the expected input param. If the actor with
+	input ID can not be found it responds with a 404 error.
+	If the ID is found then the corresponding row is deleted from the
+	database. On a successful deletion, the endpoint returns a 200
+	code and the actor id that was deleted or error 422 in case of DB
+	update failure.
+"""
+
+
 @app.route("/actors/<int:actor_id>", methods=["DELETE"])
 @requires_auth(permission="delete:actors")
 def delete_actors(jwtoken, actor_id):
@@ -132,6 +166,11 @@ def delete_actors(jwtoken, actor_id):
 		print(auth_error)
 
 
+"""
+	The GET /actors endpoint requires the 'get:movies' permission.
+	It returns a list of movies with a 200 status code
+"""
+
 @app.route("/movies", methods=["GET"])
 @requires_auth(permission="get:movies")
 def get_movies(jwtoken):
@@ -148,6 +187,12 @@ def get_movies(jwtoken):
 	except Exception as error:
 		print(error)
 
+"""
+    The POST /movies endpoint requires the 'post:movies' permission.
+    It creates a new movie. Returns the created movie with 200 status
+    on success. Returns 422 status code if input data is missing.
+    Returns 500 if failure happens during DB update
+"""
 
 @app.route("/movies", methods=["POST"])
 @requires_auth(permission="post:movies")
@@ -185,6 +230,16 @@ def create_movies(jwtoken):
 	except AuthError as auth_error:
 		print(auth_error)
 
+
+"""
+	The PATCH /movies/<int:movie_id> endpoint requires the 'patch:movies'
+	permission. movie ID is the expected input param.
+	If the movie with input ID can not be found it responds with a 404 error.
+	If the ID is found, the corresponding row for the ID is updated.
+	On a successful update, the endpoint returns a 200 code and updated
+	info of actor, or error 500 in case of DB update failure.
+"""
+
 @app.route("/movies/<int:movie_id>", methods=["PATCH"])
 @requires_auth(permission="patch:movies")
 def update_movies(jwtoken, movie_id):
@@ -211,6 +266,17 @@ def update_movies(jwtoken, movie_id):
 	except AuthError as auth_error:
 		print(auth_error)
 
+
+"""
+	The DELETE /movies/<int:movie_id> endpoint requires the 'delete:movies'
+	permission. movie ID is the expected input param. If the actor with
+	input ID can not be found it responds with a 404 error.
+	If the ID is found then the corresponding row is deleted from the
+	database. On a successful deletion, the endpoint returns a 200
+	code and the movie id that was deleted or error 422 in case of DB
+	update failure.
+"""
+
 @app.route("/movies/<int:movie_id>", methods=["DELETE"])
 @requires_auth(permission="delete:movies")
 def delete_movies(jwtoken, movie_id):
@@ -231,6 +297,15 @@ def delete_movies(jwtoken, movie_id):
 		print(auth_error)
 
 
+
+"""
+	The GET /movies/<int:movie_id>/actors endpoint requires the
+	'get:actors' permission. It returns a list of actors that were
+	cast of the movie with ID movie_id. Returns a 200 status code
+	on success. Returns 404 if movie with ID doesnot exits in
+	database.
+"""
+
 @app.route("/movies/<int:movie_id>/actors", methods=["GET"])
 @requires_auth(permission="get:actors")
 def get_actors_by_movies(jwtoken, movie_id):
@@ -243,6 +318,15 @@ def get_actors_by_movies(jwtoken, movie_id):
 	except AuthError as auth_error:
 		print(auth_error)
 
+
+
+"""
+	The GET /actors/<int:actor_id>/movies endpoint requires the
+	'get:movies' permission. It returns a list of movies that the
+	actor with ID actor_id was casted on. Returns a 200 status code
+	on success. Returns 404 if actor with ID doesnot exits in
+	database.
+"""
 
 @app.route("/actors/<int:actor_id>/movies", methods=["GET"])
 @requires_auth(permission="get:movies")

@@ -63,13 +63,13 @@ go to http://127.0.0.1:5000/login, it will redirect you to Auth0 login page, use
     -password: casting@123
 
 ## Testing
-To run the tests, make sure you have created a test db and updated setup.sh with test db.
-Also make sure to update the auth tokens in test_app.py to run the tests successfully
-name
+To run the tests, make sure you have created a test db and updated setup.sh with test db name.
+Also make sure to update the auth tokens in test_app.py to run the tests successfully.
+Test script drops the tables and populates the test db with new data before testing.
+
 ```
 python test_app.py
 ```
-The first time you run the tests, omit the dropdb command.
 
 All tests are kept in that file and should be maintained as updates are made to app functionality.
 
