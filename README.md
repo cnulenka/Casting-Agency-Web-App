@@ -77,7 +77,7 @@ All tests are kept in that file and should be maintained as updates are made to 
 
 ### Getting Started
 
-* Base URL: This API is at hosted in heroku at . 
+* Base URL: This API is at hosted in heroku at [https://casting-agency-app-cnulenka.herokuapp.com/](https://casting-agency-app-cnulenka.herokuapp.com/). 
 * The API can be run locally at `http://127.0.0.1:5000/`
 * Authentication: This API implements Authentication using Auth0, requires Auth tokens
 to access endpoints.

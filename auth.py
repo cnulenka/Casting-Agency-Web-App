@@ -8,9 +8,9 @@ from dotenv import load_dotenv, find_dotenv
 
 load_dotenv(find_dotenv())
 
-AUTH0_DOMAIN = os.environ.get('AUTH0_DOMAIN', 'abc123abc1234')
-ALGORITHMS = [os.environ.get('ALGORITHM', 'RSXXX')]
-API_AUDIENCE = os.environ.get('API_AUDIENCE', 'XYZ')
+AUTH0_DOMAIN = os.environ.get("AUTH0_DOMAIN", "abc123abc1234")
+ALGORITHMS = [os.environ.get("ALGORITHM", "RSXXX")]
+API_AUDIENCE = os.environ.get("API_AUDIENCE", "XYZ")
 
 # AuthError Exception
 """
@@ -81,11 +81,12 @@ Validate claims and verify if desired permissions are included in the payload
 def verify_permissions(permission, payload):
     if "permissions" not in payload:
         raise AuthError(
-            {
-                "code": "invalid_claims",
-                "description": "Permissions not found in JWT."
-            }, 400,
-        )
+                        {
+                            "code": "invalid_claims",
+                            "description": "Permissions not found in JWT."
+                        },
+                        400,
+                        )
 
     if permission not in payload["permissions"]:
         raise AuthError(
@@ -107,11 +108,12 @@ def verify_decode_jwt(token):
     rsa_key = {}
     if "kid" not in unverified_header:
         raise AuthError(
-            {
-                "code": "invalid_header",
-                "description": "Malformed authorization ."
-            }, 401
-        )
+                {
+                    "code": "invalid_header",
+                    "description": "Malformed authorization ."
+                },
+                401
+                )
 
     for key in jwks["keys"]:
         if key["kid"] == unverified_header["kid"]:
