@@ -26,7 +26,7 @@ Download and Install postgres database. Create a local database and update the s
 script with your data base name. You also need to create a separate database for tests and
 update setup.sh accordingly.
 
-####Setup Dependencies
+#### Setup Dependencies
 
 ```bash
 pip install -r requirements.txt
@@ -52,15 +52,15 @@ The application runs on `http://127.0.0.1:5000/` by default.
 
 go to http://127.0.0.1:5000/login, it will redirect you to Auth0 login page, use any of the credentials below to get token with permissions as per the role. Once you get the token, it will be valid for 24 hours.
 
-Casting Assitant
-email: castingassistant@gmail.com
-password: casting@123
-Casting Director
-email: castingdirector@gmail.com
-password: casting@123
-Executive Producer
-email: executiveproducer@gmail.com
-password: casting@123
+- Casting Assitant
+    - email: castingassistant@gmail.com
+    - password: casting@123
+- Casting Director
+    - email: castingdirector@gmail.com
+    - password: casting@123
+-Executive Producer
+    -email: executiveproducer@gmail.com
+    -password: casting@123
 
 ## Testing
 To run the tests, make sure you have created a test db and updated setup.sh with test db.
@@ -310,4 +310,3 @@ The API will return three types of errors:
             "movie_id": 5
         }
 
-```
