@@ -140,6 +140,7 @@ The API will return three types of errors:
     * Request Arguments: None
     * Returns: An object with success_code and list of movies with attributes id, title, release_date. 
 * Sample: `curl -X GET http://127.0.0.1:5000/movies -H "Content-Type: application/json" -H "Authorization: Bearer ACCESS_TOKEN"`<br>
+
         {
             "movies": [
                         {
@@ -173,6 +174,7 @@ The API will return three types of errors:
     * Request Arguments: None
     * Returns: An object with success_code and list of actors with attributes name, age, gender and id. 
 * Sample: `curl -X GET http://127.0.0.1:5000/movies/3/actors -H "Content-Type: application/json" -H "Authorization: Bearer ACCESS_TOKEN"`<br>
+
         {
             "actors": [
                         {
@@ -192,6 +194,7 @@ The API will return three types of errors:
     * Request Arguments: None
     * Returns: An object with success_code and list of movies with attributes id, title, release_date. 
 * Sample: `curl -X GET http://127.0.0.1:5000/actors/2/movies -H "Content-Type: application/json" -H "Authorization: Bearer ACCESS_TOKEN"`<br>
+
         {
             "movies": [
                     {
