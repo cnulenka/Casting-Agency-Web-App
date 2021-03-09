@@ -1,6 +1,7 @@
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 from dotenv import load_dotenv, find_dotenv
+import os
 
 load_dotenv(find_dotenv())
 
