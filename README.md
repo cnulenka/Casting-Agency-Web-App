@@ -11,15 +11,15 @@ Web App Supports
 5. Viewing actors of any movie.
 
 Roles and Permissions
--Casting Assistant
---Can view actors and movies
--Casting Director
---All permissions a Casting Assistant has and…
---Add or delete an actor from the database
---Modify actors or movies
--Executive Producer
---All permissions a Casting Director has and…
---Add or delete a movie from the database
+- Casting Assistant
+	- Can view actors and movies
+- Casting Director
+	- All permissions a Casting Assistant has and…
+	- Add or delete an actor from the database
+ 	- Modify actors or movies
+- Executive Producer
+	- All permissions a Casting Director has and…
+	- Add or delete a movie from the database
 
 #### Database Setup
 Download and Install postgres database. Create a local database and update the setup.sh
@@ -30,7 +30,7 @@ update setup.sh accordingly.
 
 ```bash
 pip install -r requirements.txt
-
+```
 
 This will install all of the required packages we selected within the `requirements.txt` file.
 Major requirements are Flask, SQLAlchemy
