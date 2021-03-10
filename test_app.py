@@ -3,7 +3,7 @@ import unittest
 import json
 from flask_sqlalchemy import SQLAlchemy
 
-from app import app
+from app import create_app
 from models import *
 from dotenv import load_dotenv, find_dotenv
 
@@ -22,7 +22,7 @@ class CastingAgencyTestCase(unittest.TestCase):
 
     def setUp(self):
         """Define test variables and initialize app."""
-        self.app = app
+        self.app = create_app()
         self.client = self.app.test_client
         self.database_name = os.environ.get(
                                             "TEST_DATABASE_NAME",
