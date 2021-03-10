@@ -13,6 +13,7 @@ AUTH0_CLIENT_ID = os.environ["AUTH0_CLIENT_ID"]
 API_AUDIENCE = os.environ["API_AUDIENCE"]
 AUTH0_CALLBACK_URL = os.environ["AUTH0_CALLBACK_URL"]
 
+
 def create_app(test_config=None):
     # create and configure the app
     app = Flask(__name__)
@@ -29,12 +30,10 @@ def create_app(test_config=None):
         )
         return response
 
-
     # landing page
     @app.route("/", methods=["GET"])
     def index():
         return jsonify("Welcome to Casting Agency.")
-
 
     # login redirects to Auth0 login
     @app.route("/login", methods=["GET"])
@@ -46,12 +45,10 @@ def create_app(test_config=None):
             )
         )
 
-
     """
     The GET /actors endpoint requires the 'get:actors' permission.
     It returns a list of actors with a 200 status code
     """
-
 
     @app.route("/actors", methods=["GET"])
     @requires_auth(permission="get:actors")
@@ -66,14 +63,12 @@ def create_app(test_config=None):
         except Exception as error:
             print(error)
 
-
     """
     The POST /actors endpoint requires the 'post:actors' permission.
     It creates a new actor. Returns the created actor with 200 status
     on success. Returns 422 status code if input data is missing.
     Returns 500 if failure happens during DB update
     """
-
 
     @app.route("/actors", methods=["POST"])
     @requires_auth(permission="post:actors")
@@ -87,7 +82,11 @@ def create_app(test_config=None):
                 print("Incomplete actor infomation provided.")
                 abort(422)
             try:
-                actor = Actor(name=input_name, age=input_age, gender=input_gender)
+                actor = Actor(
+                                name=input_name,
+                                age=input_age,
+                                gender=input_gender
+                            )
                 actor.insert()
                 return jsonify({"success": True, "actor": actor.format()}), 200
             except Exception as error:
@@ -99,7 +98,6 @@ def create_app(test_config=None):
         except AuthError as auth_error:
             print(auth_error)
 
-
     """
     The PATCH /actors/<int:actor_id> endpoint requires the 'patch:actors'
     permission. actor ID is the expected input param.
@@ -108,7 +106,6 @@ def create_app(test_config=None):
     On a successful update, the endpoint returns a 200 code and updated
     info of actor, or error 500 in case of DB update failure.
     """
-
 
     @app.route("/actors/<int:actor_id>", methods=["PATCH"])
     @requires_auth(permission="patch:actors")
@@ -139,7 +136,6 @@ def create_app(test_config=None):
         except AuthError as auth_error:
             print(auth_error)
 
-
     """
     The DELETE /actors/<int:actor_id> endpoint requires the 'delete:actors'
     permission. actor ID is the expected input param. If the actor with
@@ -149,7 +145,6 @@ def create_app(test_config=None):
     code and the actor id that was deleted or error 422 in case of DB
     update failure.
     """
-
 
     @app.route("/actors/<int:actor_id>", methods=["DELETE"])
     @requires_auth(permission="delete:actors")
@@ -170,12 +165,10 @@ def create_app(test_config=None):
         except AuthError as auth_error:
             print(auth_error)
 
-
     """
     The GET /actors endpoint requires the 'get:movies' permission.
     It returns a list of movies with a 200 status code.
     """
-
 
     @app.route("/movies", methods=["GET"])
     @requires_auth(permission="get:movies")
@@ -190,14 +183,12 @@ def create_app(test_config=None):
         except Exception as error:
             print(error)
 
-
     """
     The POST /movies endpoint requires the 'post:movies' permission.
     It creates a new movie. Returns the created movie with 200 status
     on success. Returns 422 status code if input data is missing.
     Returns 500 if failure happens during DB update.
     """
-
 
     @app.route("/movies", methods=["POST"])
     @requires_auth(permission="post:movies")
@@ -235,7 +226,6 @@ def create_app(test_config=None):
         except AuthError as auth_error:
             print(auth_error)
 
-
     """
     The PATCH /movies/<int:movie_id> endpoint requires the 'patch:movies'
     permission. movie ID is the expected input param.
@@ -244,7 +234,6 @@ def create_app(test_config=None):
     On a successful update, the endpoint returns a 200 code and updated
     info of actor, or error 500 in case of DB update failure.
     """
-
 
     @app.route("/movies/<int:movie_id>", methods=["PATCH"])
     @requires_auth(permission="patch:movies")
@@ -272,7 +261,6 @@ def create_app(test_config=None):
         except AuthError as auth_error:
             print(auth_error)
 
-
     """
     The DELETE /movies/<int:movie_id> endpoint requires the 'delete:movies'
     permission. movie ID is the expected input param. If the actor with
@@ -282,7 +270,6 @@ def create_app(test_config=None):
     code and the movie id that was deleted or error 422 in case of DB
     update failure.
     """
-
 
     @app.route("/movies/<int:movie_id>", methods=["DELETE"])
     @requires_auth(permission="delete:movies")
@@ -303,7 +290,6 @@ def create_app(test_config=None):
         except AuthError as auth_error:
             print(auth_error)
 
-
     """
     The GET /movies/<int:movie_id>/actors endpoint requires the
     'get:actors' permission. It returns a list of actors that were
@@ -311,7 +297,6 @@ def create_app(test_config=None):
     on success. Returns 404 if movie with ID doesnot exits in
     database.
     """
-
 
     @app.route("/movies/<int:movie_id>/actors", methods=["GET"])
     @requires_auth(permission="get:actors")
@@ -325,7 +310,6 @@ def create_app(test_config=None):
         except AuthError as auth_error:
             print(auth_error)
 
-
     """
     The GET /actors/<int:actor_id>/movies endpoint requires the
     'get:movies' permission. It returns a list of movies that the
@@ -333,7 +317,6 @@ def create_app(test_config=None):
     on success. Returns 404 if actor with ID doesnot exits in
     database.
     """
-
 
     @app.route("/actors/<int:actor_id>/movies", methods=["GET"])
     @requires_auth(permission="get:movies")
@@ -347,12 +330,10 @@ def create_app(test_config=None):
         except AuthError as auth_error:
             print(auth_error)
 
-
     # Error Handling
     """
         Error handlers to pass message with the error codes
     """
-
 
     @app.errorhandler(422)
     def unprocessable(error):
@@ -362,14 +343,12 @@ def create_app(test_config=None):
                         "message": "unprocessable"
                         }), 422
 
-
     @app.errorhandler(404)
     def not_found(error):
         return jsonify({"success": False,
                         "error": 404,
                         "message": "resource not found"
                         }), 404
-
 
     @app.errorhandler(500)
     def server_error(error):
@@ -378,14 +357,12 @@ def create_app(test_config=None):
                         "message": "server error"
                         }), 500
 
-
     @app.errorhandler(401)
     def unauthorized(error):
         return jsonify({"success": False,
                         "error": 401,
                         "message": "unauthorized"
                         }), 401
-
 
     @app.errorhandler(AuthError)
     def authorization_error(error):
@@ -401,6 +378,7 @@ def create_app(test_config=None):
         )
 
     return app
+
 
 app = create_app()
 
