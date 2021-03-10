@@ -1,7 +1,6 @@
 # Casting-Agency-Web-App
 
-This web app models a casting agency compnay that facilitates managing actors and movies. Web app uses
-authentication and has roles with specific permissions.
+A Casting Agency provides actors and extras for films and commercials. Casting agencies helps production companies find the talent they need. This web app models a casting agency company that facilitates managing actors and movies. Web app uses authentication and has roles with specific permissions.
 
 Web App Supports
 1. Adding new actors, new movies and assigning actors to movies.
@@ -20,6 +19,9 @@ Roles and Permissions
 - Executive Producer
 	- All permissions a Casting Director has and…
 	- Add or delete a movie from the database
+
+#### Motivation
+This was the capstone project for [Udacity Full Stack Web Developer Nanodegree](https://www.udacity.com/course/full-stack-web-developer-nanodegree--nd0044) course. I developed this project to utilise all the knowledge acquired in this nanodegree like data modeling, API development and testing with Flask, third paty authorization with RBAC, JWT authentication using Auth0.
 
 #### Database Setup
 Download and Install postgres database. Create a local database and update the setup.sh

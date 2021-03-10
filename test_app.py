@@ -10,12 +10,22 @@ from dotenv import load_dotenv, find_dotenv
 load_dotenv(find_dotenv())
 
 # auth tokens should be updated before running tests,
+# make sure update the tokens in setup.sh
 # read the README to know more details
-CASTING_ASSISTANT_TOKEN = "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6ImxCRzVkMGJsbndGOGFMNktpWUFtTyJ9.eyJpc3MiOiJodHRwczovL2Rldi1rcms3aDY1aS51cy5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NjA0NGM2ZTdiODQ1ODYwMDY5M2E0MGM0IiwiYXVkIjoiY2FzdGluZyIsImlhdCI6MTYxNTMyMjUwMSwiZXhwIjoxNjE1NDA4OTAxLCJhenAiOiJpdldHZ3NjczVJM055QkZRY01YdENneURBenBCckt3MCIsInNjb3BlIjoiIiwicGVybWlzc2lvbnMiOlsiZ2V0OmFjdG9ycyIsImdldDptb3ZpZXMiXX0.XGCjkJLdUFBDT9GS6s8KM6QxLAPPG87OPsJ95HIjBcXsD6m9lZBp1VSnxXacS4m-ulEZKSZODg0-t095cfJkvgR9lPmCKes--yMndvKRIHNm8zxCjT3ysmHg8DPWVVxOhFZ7S0k4tMJr6w_POea3FPTU9vgo04Zu_Mr8_fAGPraNdvAFNgnIYKEekW7rKt6vLDG6Y3X-n4DlOYxTxdeRk8zm6zaCx3VIvhEvrVSnGmM6xTGAULb_q883-7DJXcmS0whcUqHzlNPS0ptsP7Erp_iYP5z7e7ZVpQeYJvYA2vf6ZFuzmRB4KJErpoX8QqlH3EimXYVkUFx_4rRwU1go1A"
+CASTING_ASSISTANT_TOKEN = os.environ.get(
+                                        "CASTING_ASSISTANT_TOKEN",
+                                        "abc123abc1234"
+                                        )
 
-CASTING_DIRECTOR_TOKEN = "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6ImxCRzVkMGJsbndGOGFMNktpWUFtTyJ9.eyJpc3MiOiJodHRwczovL2Rldi1rcms3aDY1aS51cy5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NjA0NGM3MjAzNTE5ZDkwMDY4Zjg0ZjRlIiwiYXVkIjoiY2FzdGluZyIsImlhdCI6MTYxNTMyMjY1OSwiZXhwIjoxNjE1NDA5MDU5LCJhenAiOiJpdldHZ3NjczVJM055QkZRY01YdENneURBenBCckt3MCIsInNjb3BlIjoiIiwicGVybWlzc2lvbnMiOlsiZGVsZXRlOmFjdG9ycyIsImdldDphY3RvcnMiLCJnZXQ6bW92aWVzIiwicGF0Y2g6YWN0b3JzIiwicGF0Y2g6bW92aWVzIiwicG9zdDphY3RvcnMiXX0.bZYuMFbntbYkngKDWVA-e4KTjOmhi9EpY5JuCdP6svTDZYOMyoL4tfS0AIxDox67mLfY63DVx7Yy7AlTCU6FTyepK0EwsmBO8mCyIzliN1AL_3oB0TKJGIH_kLHQH6yCMW0HmXTXRRx1IjAW_iqpsYo8QXcT3QV3apLYVGFbU9Gs-0jwDldaDJ2U_w3gE0WTPfGYaPb0gWhGUwdWExF0t9qMAor8FWzy-oM2EUwfQE__5iSi8pGz3Y_6tCzF6DHpcnyc-_UeYTw2HOLEVY970-QXNEXL4YEVGsHc31U4tYmTAggzgqSPF8TdXdwgXUvdybR3QQr3V6DvymL-hg3pTQ"
+CASTING_DIRECTOR_TOKEN = os.environ.get(
+                                        "CASTING_DIRECTOR_TOKEN",
+                                        "abc123abc1234"
+                                        )
 
-EXECUTIVE_PRODUCER_TOKEN = "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6ImxCRzVkMGJsbndGOGFMNktpWUFtTyJ9.eyJpc3MiOiJodHRwczovL2Rldi1rcms3aDY1aS51cy5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NjA0NGM3NDczNTE5ZDkwMDY4Zjg0ZjUzIiwiYXVkIjoiY2FzdGluZyIsImlhdCI6MTYxNTMyMjc1NCwiZXhwIjoxNjE1NDA5MTU0LCJhenAiOiJpdldHZ3NjczVJM055QkZRY01YdENneURBenBCckt3MCIsInNjb3BlIjoiIiwicGVybWlzc2lvbnMiOlsiZGVsZXRlOmFjdG9ycyIsImRlbGV0ZTptb3ZpZXMiLCJnZXQ6YWN0b3JzIiwiZ2V0Om1vdmllcyIsInBhdGNoOmFjdG9ycyIsInBhdGNoOm1vdmllcyIsInBvc3Q6YWN0b3JzIiwicG9zdDptb3ZpZXMiXX0.UesOR1x8hwGJgUIAN241ElsI9qTiW3uWe31J7vWIXH6jsso6yQJpWPD4PEbo-7aodicTgB0qci-W_kQ8SrHEWDuDzycP5S5REEphRz-F3vH_dvqxo9DDwpOJIy9Vvr8ngOSp3f5VyrAXHHsQRQj-EZq5ZghPVF44coa1lXjtTEPCM620X4Po8IT2cXyuVRUU59nuKehGl9k7x5KRgpzY1BGl0TjMzjQcqHmH2CjZVNhrGUdwMCg_6oAL3Twpng3zvMEMrNwxygOvJKXoa97KxIgqc6r1BCSgiGutHsqaZiKRvA62mECJCwCsMb-TZU0i7sX7fFGrM2jMH6Yyl75i5A"
+EXECUTIVE_PRODUCER_TOKEN = os.environ.get(
+                                        "EXECUTIVE_PRODUCER_TOKEN",
+                                        "abc123abc1234"
+                                        )
 
 
 class CastingAgencyTestCase(unittest.TestCase):
