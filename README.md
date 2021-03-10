@@ -21,7 +21,7 @@ Roles and Permissions
 	- Add or delete a movie from the database
 
 #### Motivation
-This was the capstone project for [Udacity Full Stack Web Developer Nanodegree](https://www.udacity.com/course/full-stack-web-developer-nanodegree--nd0044) course. I developed this project to utilise all the knowledge acquired in this nanodegree like data modeling, API development and testing with Flask, third paty authorization with RBAC, JWT authentication using Auth0.
+This was the capstone project for [Udacity Full Stack Web Developer Nanodegree](https://www.udacity.com/course/full-stack-web-developer-nanodegree--nd0044) course. I developed this project to utilise all the knowledge acquired in this nanodegree like data modeling, API development and testing with Flask, third paty authorization with RBAC, JWT authentication using Auth0 and server deployment using Heroku.
 
 #### Database Setup
 Download and Install postgres database. Create a local database and update the setup.sh
